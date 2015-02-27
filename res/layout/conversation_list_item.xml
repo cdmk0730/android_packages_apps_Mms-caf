@@ -43,6 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_alignParentEnd="true"
+            android:layout_alignBaseline="@+id/from"
             android:textAppearance="@android:style/TextAppearance.Material.Caption"
             android:singleLine="true" />
 
@@ -55,12 +56,11 @@
             android:textAppearance="@android:style/TextAppearance.Material.Caption"
             android:singleLine="true" />
 
-        <TextView android:id="@+id/from"
+        <TextView android:id="@id/from"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_toStartOf="@id/location"
-            android:layout_alignBaseline="@id/location"
             android:layout_alignWithParentIfMissing="true"
             android:textAppearance="@android:style/TextAppearance.Material.Subhead"
             android:singleLine="true"
