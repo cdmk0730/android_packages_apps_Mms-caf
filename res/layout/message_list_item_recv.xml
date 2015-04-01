@@ -56,7 +56,7 @@
                 android:paddingStart="@dimen/message_bubble_padding_horizontal_extra"
                 android:paddingEnd="@dimen/message_bubble_padding_horizontal"
                 android:background="@drawable/message_bubble_incoming"
-                android:theme="@android:style/ThemeOverlay.Material.Dark"
+                android:theme="@style/ReceivedMessageTheme"
                 android:orientation="vertical" >
 
                 <TextView
@@ -66,6 +66,12 @@
                     android:paddingTop="@dimen/message_item_text_padding_top"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:visibility="gone"/>
+
+                <ViewStub android:id="@+id/mms_downloading_view_stub"
+                    android:layout="@layout/mms_downloading_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
                 <TextView android:id="@+id/text_view"
                     android:autoLink="all"
                     android:paddingTop="@dimen/message_item_text_padding_top"
@@ -74,6 +80,13 @@
                     android:linksClickable="false"
                     android:textColorLink="@color/outgoing_message_bg"
                     android:textAppearance="@android:style/TextAppearance.Material.Body1" />
+
+                <TextView android:id="@+id/mms_msg_size_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dip"
+                    android:visibility="gone"
+                    android:textAppearance="@android:style/TextAppearance.Material.Caption" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -86,7 +99,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingEnd="4dip"
-                        android:tint="?android:attr/textColorSecondary"
                         android:visibility="gone"
                         android:layout_gravity="center_vertical"/>
 
@@ -102,6 +114,7 @@
                     <TextView android:id="@+id/date_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:paddingEnd="4dip"
                         android:textAppearance="@android:style/TextAppearance.Material.Caption" />
 
@@ -109,6 +122,7 @@
                         android:id="@+id/locked_indicator"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:src="@drawable/ic_lock_message_sms"
                         android:paddingEnd="4dip"
                         android:visibility="gone" />
@@ -117,6 +131,7 @@
                         android:id="@+id/delivered_indicator"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:src="@drawable/ic_sms_mms_delivered"
                         android:paddingEnd="4dip"
                         android:visibility="gone" />
@@ -125,6 +140,7 @@
                         android:id="@+id/details_indicator"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:src="@drawable/ic_sms_mms_details"
                         android:visibility="gone" />
                 </LinearLayout>
@@ -136,11 +152,5 @@
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
-
-    <ViewStub android:id="@+id/mms_downloading_view_stub"
-        android:layout="@layout/mms_downloading_view"
-        android:layout_gravity="center_vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
 
 </com.android.mms.ui.MessageListItem>

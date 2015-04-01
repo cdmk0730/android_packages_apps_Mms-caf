@@ -81,6 +81,7 @@ import android.telecom.PhoneAccount;
 import android.telecom.PhoneAccountHandle;
 import android.telecom.TelecomManager;
 import android.telephony.PhoneNumberUtils;
+import android.telephony.SubscriptionInfo;
 import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -108,6 +109,7 @@ import com.android.internal.telephony.cdma.sms.SmsEnvelope;
 import com.android.internal.telephony.cdma.sms.UserData;
 import com.android.internal.telephony.uicc.IccUtils;
 
+import com.android.contacts.common.widget.SelectPhoneAccountDialogFragment;
 import com.android.mms.LogTag;
 import com.android.mms.MmsApp;
 import com.android.mms.MmsConfig;
@@ -866,22 +868,8 @@ public class MessageUtils {
             return;
         } else if (slide.hasVCal()) {
             mm = slide.getVCal();
-            Intent intent = new Intent();
-            Uri vCalFileUri = mm.getUri();;
-            // change the intent type based on the view triggering this call
-            // from compose - use ACTION_VIEW
-            // from others - use ACTION_SEND
-            String [] projection = { "_data" };     // absolute file path
-            Cursor cursor = context.getContentResolver().query(mm.getUri(), projection,
-                    null, null, null);
-            if (cursor != null && cursor.moveToFirst()) {
-                // if file exists , then we are looking at a local mms msg
-                intent.setAction(Intent.ACTION_SEND);
-                cursor.close();
-            } else {
-                intent.setAction(Intent.ACTION_VIEW);
-            }
-
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            Uri vCalFileUri = mm.getUri();
             intent.setDataAndType(vCalFileUri, ContentType.TEXT_VCALENDAR.toLowerCase());
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             context.startActivity(intent);
@@ -1024,7 +1012,7 @@ public class MessageUtils {
         return getLocalNumber(SubscriptionManager.getDefaultDataSubId());
     }
 
-    public static String getLocalNumber(long subId) {
+    public static String getLocalNumber(int subId) {
         sLocalNumber = MmsApp.getApplication().getTelephonyManager()
             .getLine1NumberForSubscriber(subId);
         return sLocalNumber;
@@ -1574,13 +1562,31 @@ public class MessageUtils {
                     && (simState != TelephonyManager.SIM_STATE_UNKNOWN);
     }
 
+    public static CharSequence getSimName(Context context, int phoneId) {
+        if (TelephonyManager.getDefault().getPhoneCount() <= 1) {
+            return null;
+        }
+
+        int[] slotIds = SubscriptionManager.getSubId(phoneId);
+        if (slotIds != null) {
+            SubscriptionManager subMgr = SubscriptionManager.from(context);
+            for (int i = 0; i < slotIds.length; i++) {
+                SubscriptionInfo info = subMgr.getActiveSubscriptionInfo(slotIds[i]);
+                if (info != null) {
+                    return info.getDisplayName();
+                }
+            }
+        }
+        return null;
+    }
+
     public static Drawable getMultiSimIcon(Context context, int subscription) {
         if (context == null) {
             // If the context is null, return 0 as no resource found.
             return null;
         }
 
-        long subId[] = SubscriptionManager.getSubId(subscription);
+        int subId[] = SubscriptionManager.getSubId(subscription);
         final TelecomManager telecomManager = (TelecomManager) context
                 .getSystemService(Context.TELECOM_SERVICE);
         List<PhoneAccountHandle> pHandles = telecomManager.getCallCapablePhoneAccounts();
@@ -1597,7 +1603,7 @@ public class MessageUtils {
         }
         final PhoneAccount account = telecomManager
                 .getPhoneAccount(phoneAccountHandle);
-        return account.getIcon(context);
+        return account.createIconDrawable(context);
     }
 
     private static void log(String msg) {
@@ -1620,7 +1626,7 @@ public class MessageUtils {
     /**
      * Return the sim name of subscription.
      */
-    public static String getMultiSimName(Context context, long subscription) {
+    public static String getMultiSimName(Context context, int subscription) {
         if (subscription >= TelephonyManager.getDefault().getPhoneCount() || subscription < 0) {
             return null;
         }
@@ -1887,8 +1893,8 @@ public class MessageUtils {
     /**
      * Return the icc uri according to subscription
      */
-    public static Uri getIccUriBySubscription(long subscription) {
-        switch ((int)subscription) {
+    public static Uri getIccUriBySubscription(int subscription) {
+        switch (subscription) {
             case (int)SUB1:
                 return ICC1_URI;
             case (int)SUB2:
@@ -1898,22 +1904,11 @@ public class MessageUtils {
         }
     }
 
-    private static boolean isCDMAPhone(long subscription) {
-        boolean isCDMA = false;
-        int activePhone = isMultiSimEnabledMms()
-                ? TelephonyManager.getDefault().getCurrentPhoneType(subscription)
-                        : TelephonyManager.getDefault().getPhoneType();
-        if (TelephonyManager.PHONE_TYPE_CDMA == activePhone) {
-            isCDMA = true;
-        }
-        return isCDMA;
-    }
-
     /**
      * Generate a Delivery PDU byte array. see getSubmitPdu for reference.
      */
     public static byte[] getDeliveryPdu(String scAddress, String destinationAddress, String message,
-            long date, long subscription) {
+            long date, int subscription) {
         if (isCDMAPhone(subscription)) {
             return getCDMADeliveryPdu(scAddress, destinationAddress, message, date);
         } else {
@@ -2791,5 +2786,30 @@ public class MessageUtils {
         bos.close();
 
         return new File(filePath);
+    }
+
+    public interface OnSimSelectedCallback {
+        void onSimSelected(int subId);
+    }
+
+    public static void showSimSelector(Activity activity, final OnSimSelectedCallback cb) {
+        final TelecomManager telecomMgr =
+                (TelecomManager) activity.getSystemService(Context.TELECOM_SERVICE);
+        final List<PhoneAccountHandle> handles = telecomMgr.getCallCapablePhoneAccounts();
+
+        final SelectPhoneAccountDialogFragment.SelectPhoneAccountListener listener =
+                new SelectPhoneAccountDialogFragment.SelectPhoneAccountListener() {
+            @Override
+            public void onPhoneAccountSelected(PhoneAccountHandle selectedAccountHandle,
+                    boolean setDefault) {
+                cb.onSimSelected(Integer.valueOf(selectedAccountHandle.getId()));
+            }
+            @Override
+            public void onDialogDismissed() {
+            }
+        };
+
+        SelectPhoneAccountDialogFragment.showAccountDialog(activity.getFragmentManager(),
+                R.string.select_phone_account_title, false /* canSetDefault */, handles, listener);
     }
 }

@@ -67,8 +67,10 @@ import com.android.internal.telephony.PhoneConstants;
 import com.android.mms.LogTag;
 import com.android.mms.MmsConfig;
 import com.android.mms.R;
+import com.android.mms.ui.ComposeMessageActivity;
 import com.android.mms.util.DownloadManager;
 import com.android.mms.util.RateController;
+
 import com.google.android.mms.pdu.GenericPdu;
 import com.google.android.mms.pdu.NotificationInd;
 import com.google.android.mms.pdu.PduHeaders;
@@ -336,7 +338,7 @@ public class TransactionService extends Service implements Observer {
         return Service.START_NOT_STICKY;
     }
 
-    private long[] getSubIdFromDb(Uri uri) {
+    private int[] getSubIdFromDb(Uri uri) {
         int phoneId = 0;
         Cursor c = getApplicationContext().getContentResolver().query(uri,
                 null, null, null, null);
@@ -358,7 +360,7 @@ public class TransactionService extends Service implements Observer {
         // If client does not update the DB with phoneId, use default sms
         // phoneId
         if (!SubscriptionManager.isValidSlotId(phoneId)) {
-            phoneId = SubscriptionManager.getDefaultSmsPhoneId();
+            phoneId = SubscriptionManager.getPhoneId(SubscriptionManager.getDefaultSmsSubId());
         }
         Log.d(TAG, "Destination Phone Id = " + phoneId);
         return (SubscriptionManager.getSubId(phoneId));
@@ -394,6 +396,11 @@ public class TransactionService extends Service implements Observer {
     }
 
     public void onNewIntent(Intent intent, int serviceId) {
+        if (!MmsConfig.isSmsEnabled(this)) {
+            Log.d(TAG, "TransactionService: is not the default sms app");
+            stopSelf(serviceId);
+            return;
+        }
         mConnMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         if (mConnMgr == null || !MmsConfig.isSmsEnabled(getApplicationContext())) {
             endMmsConnectivity();
@@ -516,7 +523,7 @@ public class TransactionService extends Service implements Observer {
                                         Mms.CONTENT_URI,
                                         cursor.getLong(columnIndexOfMsgId));
 
-                                long [] subId = getSubIdFromDb(uri);
+                                int[] subId = getSubIdFromDb(uri);
                                 // subId is null. Bail out.
                                 if (subId == null) {
                                     Log.e(TAG, "SMS subId is null. Bail out");
@@ -527,7 +534,7 @@ public class TransactionService extends Service implements Observer {
 
                                 if (subId[0] < 0) {
                                     Log.d(TAG, "Subscriptions are not yet ready.");
-                                    long defSmsSubId = getDefaultSmsSubId();
+                                    int defSmsSubId = getDefaultSmsSubId();
                                     // We dont have enough info about subId. We dont know if the
                                     // phoneId as persent in DB actually would match the subId of
                                     // defaultSmsSubId. We can not also ignore this transaction
@@ -586,7 +593,7 @@ public class TransactionService extends Service implements Observer {
             String uriStr = intent.getStringExtra("uri");
             Uri uri = Uri.parse(uriStr);
 
-            long [] subId = getSubIdFromDb(uri);
+            int[] subId = getSubIdFromDb(uri);
             // subId is null. Bail out.
             if (subId == null) {
                 Log.e(TAG, "SMS subId is null. Bail out");
@@ -596,20 +603,20 @@ public class TransactionService extends Service implements Observer {
             Log.d(TAG, "destination Sub Id = " + subId[0]);
 
             if (subId[0] < 0) {
-               long defSmsSubId = getDefaultSmsSubId();
+                int defSmsSubId = getDefaultSmsSubId();
                 Log.d(TAG, "Override with default Sms subId = " + defSmsSubId);
                 subId[0] = defSmsSubId;
             }
 
             Bundle bundle = intent.getExtras();
-            bundle.putLong(PhoneConstants.SUBSCRIPTION_KEY, subId[0]);
+            bundle.putInt(PhoneConstants.SUBSCRIPTION_KEY, subId[0]);
             // For launching NotificationTransaction and test purpose.
             TransactionBundle args = new TransactionBundle(bundle);
             launchTransaction(serviceId, args, noNetwork);
         }
     }
 
-    private long getDefaultSmsSubId() {
+    private int getDefaultSmsSubId() {
         return SubscriptionManager.getDefaultSmsSubId();
     }
 
@@ -1106,7 +1113,9 @@ public class TransactionService extends Service implements Observer {
                                 } else {
                                     // Now it's only used for test purpose.
                                     byte[] pushData = args.getPushData();
-                                    PduParser parser = new PduParser(pushData);
+                                    PduParser parser = new PduParser(
+                                            pushData,
+                                            PduParserUtil.shouldParseContentDisposition());
                                     GenericPdu ind = parser.parse();
 
                                     int type = PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND;

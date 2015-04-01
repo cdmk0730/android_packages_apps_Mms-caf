@@ -173,6 +173,13 @@ public class SmsReceiverService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if (!MmsConfig.isSmsEnabled(this)) {
+            Log.d(TAG, "SmsReceiverService: is not the default sms app");
+            // NOTE: We MUST not call stopSelf() directly, since we need to
+            // make sure the wake lock acquired by AlertReceiver is released.
+            SmsReceiver.finishStartingService(SmsReceiverService.this, startId);
+            return Service.START_NOT_STICKY;
+        }
         // Temporarily removed for this duplicate message track down.
 
         int resultCode = intent != null ? intent.getIntExtra("result", 0) : 0;
@@ -512,8 +519,8 @@ public class SmsReceiverService extends Service {
                 SmsMessage sms = msgs[i];
                 boolean saveSuccess = saveMessageToIcc(sms);
                 if (saveSuccess) {
-                    long subId = TelephonyManager.getDefault().isMultiSimEnabled()
-                            ? sms.getSubId() : (long)MessageUtils.SUB_INVALID;
+                    int subId = TelephonyManager.getDefault().isMultiSimEnabled()
+                            ? sms.getSubId() : MessageUtils.SUB_INVALID;
                     String address = MessageUtils.convertIdp(this,
                             sms.getDisplayOriginatingAddress());
                     MessagingNotification.blockingUpdateNewIccMessageIndicator(
@@ -981,7 +988,7 @@ public class SmsReceiverService extends Service {
      *
      */
     private void displayClassZeroMessage(Context context, SmsMessage sms, String format) {
-        long subId = sms.getSubId();
+        int subId = sms.getSubId();
         int phoneId = SubscriptionManager.getPhoneId(subId);
 
         // Using NEW_TASK here is necessary because we're calling
@@ -1023,12 +1030,12 @@ public class SmsReceiverService extends Service {
 
     private boolean saveMessageToIcc(SmsMessage sms) {
         boolean result = true;
-        long subscription = sms.getSubId();
+        int subscription = sms.getSubId();
         String address = MessageUtils.convertIdp(this, sms.getOriginatingAddress());
         byte pdu[] = MessageUtils.getDeliveryPdu(null, address,
                 sms.getMessageBody(), sms.getTimestampMillis(), subscription);
         result &= TelephonyManager.getDefault().isMultiSimEnabled()
-                ? SmsManager.getSmsManagerForSubscriber(subscription)
+                ? SmsManager.getSmsManagerForSubscriptionId(subscription)
                     .copyMessageToIcc(null, pdu, SmsManager.STATUS_ON_ICC_READ)
                 : SmsManager.getDefault()
                     .copyMessageToIcc(null, pdu, SmsManager.STATUS_ON_ICC_READ);

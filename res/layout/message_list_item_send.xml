@@ -66,6 +66,13 @@
                     android:paddingTop="@dimen/message_item_text_padding_top"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:visibility="gone"/>
+
+                <ViewStub android:id="@+id/mms_downloading_view_stub"
+                    android:layout="@layout/mms_downloading_view"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
                 <TextView android:id="@+id/text_view"
                     android:autoLink="all"
                     android:paddingTop="@dimen/message_item_text_padding_top"
@@ -73,6 +80,13 @@
                     android:layout_height="wrap_content"
                     android:linksClickable="false"
                     android:textAppearance="@android:style/TextAppearance.Material.Body1" />
+
+                <TextView android:id="@+id/mms_msg_size_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dip"
+                    android:visibility="gone"
+                    android:textAppearance="@android:style/TextAppearance.Material.Caption" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -84,6 +98,7 @@
                         android:id="@+id/locked_indicator"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:src="@drawable/ic_lock_message_sms"
                         android:paddingEnd="4dip"
                         android:visibility="gone" />
@@ -92,6 +107,7 @@
                         android:id="@+id/delivered_indicator"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:paddingEnd="4dip"
                         android:src="@drawable/ic_sms_mms_delivered"
                         android:visibility="gone" />
@@ -100,6 +116,7 @@
                         android:id="@+id/details_indicator"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:paddingEnd="4dip"
                         android:src="@drawable/ic_sms_mms_details"
                         android:visibility="gone" />
@@ -109,7 +126,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingEnd="4dip"
-                        android:tint="?android:attr/textColorSecondary"
                         android:visibility="gone"
                         android:layout_gravity="center_vertical" />
 
@@ -123,7 +139,7 @@
                     <TextView android:id="@+id/date_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="end"
+                        android:layout_gravity="end|center_vertical"
                         android:textAppearance="@android:style/TextAppearance.Material.Caption" />
                 </LinearLayout>
 
@@ -134,11 +150,5 @@
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
-
-    <ViewStub android:id="@+id/mms_downloading_view_stub"
-        android:layout="@layout/mms_downloading_view"
-        android:layout_gravity="center_vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
 
 </com.android.mms.ui.MessageListItem>

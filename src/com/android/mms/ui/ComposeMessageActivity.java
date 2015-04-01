@@ -98,7 +98,6 @@ import android.provider.Settings.SettingNotFoundException;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
 import android.telephony.PhoneNumberUtils;
-import android.telephony.SubInfoRecord;
 import android.telephony.SubscriptionManager;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
@@ -113,6 +112,7 @@ import android.text.method.TextKeyListener;
 import android.text.style.URLSpan;
 import android.util.Log;
 import android.util.SparseBooleanArray;
+import android.util.TypedValue;
 import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -348,6 +348,7 @@ public class ComposeMessageActivity extends Activity
     private View mTopPanel;                 // View containing the recipient and subject editors
     private View mBottomPanel;              // View containing the text editor, send button, ec.
     private EditText mTextEditor;           // Text editor to type your message into
+    private float mTextEditorFontSize;
     private TextView mTextCounter;          // Shows the number of characters used in text editor
     private TextView mSendButtonMms;        // Press to send mms
     private ImageButton mSendButtonSms;     // Press to send sms
@@ -415,7 +416,6 @@ public class ComposeMessageActivity extends Activity
                                             // If the value >= 0, then we jump to that line. If the
                                             // value is maxint, then we jump to the end.
     private long mLastMessageId;
-    private AlertDialog mMsimDialog;     // Used for MSIM subscription choose
 
     // Record the resend sms recipient when the sms send to more than one recipient
     private String mResendSmsRecipient;
@@ -900,39 +900,23 @@ public class ComposeMessageActivity extends Activity
         }
     }
 
-   private void processMsimSendMessage(int phoneId, final boolean bCheckEcmMode) {
-        if (mMsimDialog != null) {
-            mMsimDialog.dismiss();
-        }
-        mWorkingMessage.setWorkingMessageSub(phoneId);
-        sendMessage(bCheckEcmMode);
-    }
-
-    private void LaunchMsimDialog(final boolean bCheckEcmMode) {
-        ContactList recipients = isRecipientsEditorVisible() ?
-            mRecipientsEditor.constructContactsFromInput(false) : getRecipients();
-        mMsimDialog = new MsimDialog(this,
-                                     new MsimDialog.OnSimButtonClickListener() {
-                                         @Override
-                                         public void onSimButtonClick(int phoneId) {
-                                             processMsimSendMessage(phoneId,
-                                                                    bCheckEcmMode);
-                                         }
-                                     },
-                                     recipients);
-        mMsimDialog.show();
-    }
-
     private void sendMsimMessage(boolean bCheckEcmMode, int subscription) {
         mWorkingMessage.setWorkingMessageSub(subscription);
         sendMessage(bCheckEcmMode);
     }
 
-    private void sendMsimMessage(boolean bCheckEcmMode) {
+    private void sendMsimMessage(final boolean bCheckEcmMode) {
         if (SubscriptionManager.isSMSPromptEnabled()) {
-            LaunchMsimDialog(bCheckEcmMode);
+            MessageUtils.showSimSelector(this, new MessageUtils.OnSimSelectedCallback() {
+                @Override
+                public void onSimSelected(int subId) {
+                    int phoneId = SubscriptionManager.getPhoneId(subId);
+                    mWorkingMessage.setWorkingMessageSub(phoneId);
+                    sendMessage(bCheckEcmMode);
+                }
+            });
         } else {
-            long subId = SubscriptionManager.getDefaultSmsSubId();
+            int subId = SubscriptionManager.getDefaultSmsSubId();
             int phoneId = SubscriptionManager.getPhoneId(subId);
             mWorkingMessage.setWorkingMessageSub(phoneId);
             sendMessage(bCheckEcmMode);
@@ -994,7 +978,7 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void confirmSendMessageIfNeeded() {
-        int slot = SubscriptionManager.getSlotId(SmsManager.getDefault().getDefaultSmsSubId());
+        int slot = SubscriptionManager.getSlotId(SubscriptionManager.getDefaultSmsSubId());
         if ((TelephonyManager.getDefault().isMultiSimEnabled() &&
                 isLTEOnlyMode(slot))
                 || (!TelephonyManager.getDefault().isMultiSimEnabled()
@@ -1135,7 +1119,7 @@ public class ComposeMessageActivity extends Activity
 
     private void checkForTooManyRecipients() {
         final int recipientLimit = MmsConfig.getRecipientLimit();
-        if (recipientLimit != Integer.MAX_VALUE) {
+        if (recipientLimit != Integer.MAX_VALUE && recipientLimit > 0) {
             final int recipientCount = recipientCount();
             boolean tooMany = recipientCount > recipientLimit;
 
@@ -1961,6 +1945,7 @@ public class ComposeMessageActivity extends Activity
         mRecipientsSelector.setOnClickListener(this);
 
         mRecipientsEditor.setAdapter(new ChipsRecipientAdapter(this));
+        mRecipientsEditor.setText(null);
         mRecipientsEditor.populate(recipients);
         mRecipientsEditor.setOnCreateContextMenuListener(mRecipientsMenuCreateListener);
         // TODO : Remove the max length limitation due to the multiple phone picker is added and the
@@ -2057,9 +2042,8 @@ public class ComposeMessageActivity extends Activity
     public void onZoomWithScale(float scale) {
         if (mMsgListView != null) {
             mMsgListView.handleZoomWithScale(scale);
-            int fontSize = mMsgListView.getZoomFontSize();
             if (mTextEditor != null) {
-                mTextEditor.setTextSize(fontSize);
+                mTextEditor.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextEditorFontSize * scale);
             }
         }
 
@@ -4361,6 +4345,7 @@ public class ComposeMessageActivity extends Activity
             mBottomPanel = findViewById(R.id.bottom_panel);
             mBottomPanel.setVisibility(View.VISIBLE);
             mTextEditor = (EditText) findViewById(R.id.embedded_text_editor);
+            mTextEditorFontSize = mTextEditor.getTextSize();
             mTextCounter = (TextView) findViewById(R.id.text_counter);
             mSendButtonMms = (TextView) findViewById(R.id.send_button_mms);
             mSendButtonSms = (ImageButton) findViewById(R.id.send_button_sms);
@@ -5395,7 +5380,7 @@ public class ComposeMessageActivity extends Activity
             if (which >= 0) {
                 slot = which;
             } else if (which == DialogInterface.BUTTON_POSITIVE) {
-                long [] subId = SubscriptionManager.getSubId(slot);
+                int[] subId = SubscriptionManager.getSubId(slot);
                 new Thread(new CopyToSimThread(msgItems, subId[0])).start();
             }
         }
@@ -5403,14 +5388,14 @@ public class ComposeMessageActivity extends Activity
 
     private class CopyToSimThread extends Thread {
         private ArrayList<MessageItem> msgItems;
-        private long subscription;
+        private int subscription;
 
         public CopyToSimThread(ArrayList<MessageItem> msgItems) {
             this.msgItems = msgItems;
-            this.subscription = SmsManager.getDefault().getDefaultSmsSubId();
+            this.subscription = SubscriptionManager.getDefaultSmsSubId();
         }
 
-        public CopyToSimThread(ArrayList<MessageItem> msgItems, long subscription) {
+        public CopyToSimThread(ArrayList<MessageItem> msgItems, int subscription) {
             this.msgItems = msgItems;
             this.subscription = subscription;
         }
@@ -5434,10 +5419,10 @@ public class ComposeMessageActivity extends Activity
     }
 
     private boolean copyToSim(MessageItem msgItem) {
-        return copyToSim(msgItem, SmsManager.getDefault().getDefaultSmsSubId());
+        return copyToSim(msgItem, SubscriptionManager.getDefaultSmsSubId());
     }
 
-    private boolean copyToSim(MessageItem msgItem, long subId) {
+    private boolean copyToSim(MessageItem msgItem, int subId) {
         int boxId = msgItem.mBoxId;
         String address = msgItem.mAddress;
         if (MessageUtils.isWapPushNumber(address)) {
@@ -5464,7 +5449,7 @@ public class ComposeMessageActivity extends Activity
                 status = SmsManager.STATUS_ON_ICC_READ;
             }
             ret &= TelephonyManager.getDefault().isMultiSimEnabled()
-                    ? SmsManager.getSmsManagerForSubscriber(subId)
+                    ? SmsManager.getSmsManagerForSubscriptionId(subId)
                             .copyMessageToIcc(null, pdu, status)
                     : sm.copyMessageToIcc(null, pdu, status);
             if (!ret) {
