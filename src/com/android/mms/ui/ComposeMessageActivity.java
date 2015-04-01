@@ -196,8 +196,7 @@ import com.google.android.mms.pdu.SendReq;
  */
 public class ComposeMessageActivity extends Activity
         implements View.OnClickListener, TextView.OnEditorActionListener,
-        MessageStatusListener, Contact.UpdateListener, IZoomListener,
-        ProximitySensorManager.ProximitySensorListener {
+        MessageStatusListener, Contact.UpdateListener, IZoomListener, ProximitySensorManager.ProximitySensorListener {
     public static final int REQUEST_CODE_ATTACH_IMAGE                   = 100;
     public static final int REQUEST_CODE_TAKE_PICTURE                   = 101;
     public static final int REQUEST_CODE_ATTACH_VIDEO                   = 102;
