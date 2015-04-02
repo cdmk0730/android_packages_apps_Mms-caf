@@ -274,7 +274,7 @@ public class ConversationListItem extends RelativeLayout implements Contact.Upda
 
         // Location
         if (MoKeeUtils.isSupportLanguage(true)) {
-            mLocationView.setText(PhoneLocation.getCityFromPhone((CharSequence)contacts.get(0).getNumber()));
+            mLocationView.setText(PhoneLocation.getPhoneLocation(contacts.get(0).getNumber()));
         }
 
         if (Log.isLoggable(LogTag.CONTACT, Log.DEBUG)) {
