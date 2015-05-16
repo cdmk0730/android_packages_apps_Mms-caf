@@ -257,6 +257,4 @@
   <string name="pref_title_mms_auto_enable_data">เปิดใช้งานข้อมูลอัตโนมัติ</string>
   <string name="pref_summary_mms_auto_enable_data">เปิดใช้งานข้อมูลเครือข่ายอัตโนมัติสำหรับข้อความ MMS</string>
   <string name="adding_selected_recipients_dialog_text">กำลังเพิ่มรายชื่อ\u2026</string>
-  <string name="pref_title_mms_smart_dialer">การโทรอัจฉริยะ</string>
-  <string name="pref_summary_mms_smart_dialer">โทรออกไปหารายชื่อที่กำหนดอัตโนมัติเมื่อคุณยกโทรศัพท์ขึ้นมาแนบหู</string>
 </resources>

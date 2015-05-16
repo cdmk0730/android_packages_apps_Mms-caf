@@ -257,6 +257,4 @@
   <string name="pref_title_mms_auto_enable_data">Αυτόματη ενεργοποίηση δεδομένων</string>
   <string name="pref_summary_mms_auto_enable_data">Αυτόματη ενεργοποίηση δεδομένων τηλεφωνίας για μηνύματα MMS</string>
   <string name="adding_selected_recipients_dialog_text">Προσθήκη επαφών\u2026</string>
-  <string name="pref_title_mms_smart_dialer">Έξυπνη κλήση</string>
-  <string name="pref_summary_mms_smart_dialer">Αυτόματη κλήση της επαφής μετακινώντας το τηλέφωνο στο αυτί σας</string>
 </resources>

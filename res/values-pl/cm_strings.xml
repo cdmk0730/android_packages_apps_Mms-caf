@@ -257,6 +257,4 @@
   <string name="pref_title_mms_auto_enable_data">Automatyczne włączanie danych</string>
   <string name="pref_summary_mms_auto_enable_data">Automatyczne włączanie danych dla wiadomości MMS</string>
   <string name="adding_selected_recipients_dialog_text">Dodawanie kontaktów\u2026</string>
-  <string name="pref_title_mms_smart_dialer">Inteligentne połączenie</string>
-  <string name="pref_summary_mms_smart_dialer">Automatycznie połącz z kontaktem poprzez przyłożenie urządzenia do ucha</string>
 </resources>

@@ -257,6 +257,4 @@
   <string name="pref_title_mms_auto_enable_data">Automaticky povolit data</string>
   <string name="pref_summary_mms_auto_enable_data">Automaticky povolit mobilní data pro MMS zprávy</string>
   <string name="adding_selected_recipients_dialog_text">Přidávání kontaktů\u2026</string>
-  <string name="pref_title_mms_smart_dialer">Inteligentní vytáčení</string>
-  <string name="pref_summary_mms_smart_dialer">Provedení automatického vytáčení při přiložení zařízení k uchu</string>
 </resources>

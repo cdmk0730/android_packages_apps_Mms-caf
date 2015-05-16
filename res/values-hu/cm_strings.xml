@@ -257,6 +257,4 @@
   <string name="pref_title_mms_auto_enable_data">Adatkapcsolat automatikus engedélyezése</string>
   <string name="pref_summary_mms_auto_enable_data">Adatkapcsolat automatikus engedélyezése az MMS üzenetek számára</string>
   <string name="adding_selected_recipients_dialog_text">Névjegyek hozzáadása\u2026</string>
-  <string name="pref_title_mms_smart_dialer">Intelligens hívás</string>
-  <string name="pref_summary_mms_smart_dialer">A kapcsolat automatikus hívása, ha a telefont a füléhez emeli</string>
 </resources>

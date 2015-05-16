@@ -257,6 +257,4 @@
   <string name="pref_title_mms_auto_enable_data">Ota datayhteys käyttöön automaattisesti</string>
   <string name="pref_summary_mms_auto_enable_data">Ota mobiilidata automaattisesti käyttöön multimediaviesteille</string>
   <string name="adding_selected_recipients_dialog_text">Lisätään yhteystietoja\u2026</string>
-  <string name="pref_title_mms_smart_dialer">Älykäs puhelu</string>
-  <string name="pref_summary_mms_smart_dialer">Soita automaattisesti siirtämällä laite korvalle</string>
 </resources>

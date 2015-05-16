@@ -257,6 +257,4 @@
   <string name="pref_title_mms_auto_enable_data">Daten automatesch aktivéieren</string>
   <string name="pref_summary_mms_auto_enable_data">Mobil Daten automatesch fir MMS-Messagen aktivéieren</string>
   <string name="adding_selected_recipients_dialog_text">Kontakter ginn dobäigesat\u2026</string>
-  <string name="pref_title_mms_smart_dialer">Intelligenten Uruff</string>
-  <string name="pref_summary_mms_smart_dialer">De Kontakt automatesch uruffe wann den Apparat bei d\'Ouer beweegt gëtt</string>
 </resources>

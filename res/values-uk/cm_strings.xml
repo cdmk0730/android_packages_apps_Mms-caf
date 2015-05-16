@@ -257,6 +257,4 @@
   <string name="pref_title_mms_auto_enable_data">Авто-увімкнення даних</string>
   <string name="pref_summary_mms_auto_enable_data">Автоматично вмикати мобільні дані для MMS-повідомлень</string>
   <string name="adding_selected_recipients_dialog_text">Додавання одержувачів</string>
-  <string name="pref_title_mms_smart_dialer">Розумний виклик</string>
-  <string name="pref_summary_mms_smart_dialer">Автоматично телефонувати контакту, у випадку піднесення пристрою до вуха</string>
 </resources>
