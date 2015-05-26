@@ -257,6 +257,4 @@
   <string name="pref_title_mms_auto_enable_data">Automatisk aktiver data</string>
   <string name="pref_summary_mms_auto_enable_data">Automatisk aktiver mobildata for MMS meldinger</string>
   <string name="adding_selected_recipients_dialog_text">Legge til kontakter\u2026</string>
-  <string name="pref_title_mms_smart_dialer">Smart samtale</string>
-  <string name="pref_summary_mms_smart_dialer">Automatisk ringe kontakten ved å flytte enheten til øret</string>
 </resources>

@@ -258,6 +258,4 @@
   <string name="pref_title_mms_auto_enable_data">Automatikoki gaitu datuak</string>
   <string name="pref_summary_mms_auto_enable_data">Automatikoki gaitu datu mugikorrak MMS mezuentzat</string>
   <string name="adding_selected_recipients_dialog_text">Kontaktuak gehitzen\2026</string>
-  <string name="pref_title_mms_smart_dialer">Dei adimentsua</string>
-  <string name="pref_summary_mms_smart_dialer">Automatikoki deitu kontaktua telefonoa belarrira hurbilduz</string>
 </resources>

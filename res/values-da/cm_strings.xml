@@ -257,6 +257,4 @@
   <string name="pref_title_mms_auto_enable_data">Automatisk aktivering af data</string>
   <string name="pref_summary_mms_auto_enable_data">Aktiverer automatisk mobil-data for MMS-beskeder</string>
   <string name="adding_selected_recipients_dialog_text">Tilføjer kontakter\u2026</string>
-  <string name="pref_title_mms_smart_dialer">Smart-opkald</string>
-  <string name="pref_summary_mms_smart_dialer">Ringer automatisk op til kontaktpersonen ved at flytte din enhed op til øret</string>
 </resources>

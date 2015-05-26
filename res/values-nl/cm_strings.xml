@@ -258,6 +258,4 @@
   <string name="pref_title_mms_auto_enable_data">Automatisch mobiele gegevens</string>
   <string name="pref_summary_mms_auto_enable_data">Automatisch mobiele gegevensverbinding inschakelen voor mms-berichten</string>
   <string name="adding_selected_recipients_dialog_text">Contacten toevoegen\u2026</string>
-  <string name="pref_title_mms_smart_dialer">Slim bellen</string>
-  <string name="pref_summary_mms_smart_dialer">Automatisch het contact bellen door uw telefoon naar uw oor te brengen</string>
 </resources>
