@@ -258,6 +258,4 @@
   <string name="pref_title_mms_auto_enable_data">Activation auto des données mobiles</string>
   <string name="pref_summary_mms_auto_enable_data">Activer automatiquement les données mobiles pour les messages MMS</string>
   <string name="adding_selected_recipients_dialog_text">Ajout de contacts\u2026</string>
-  <string name="pref_title_mms_smart_dialer">Appel intelligent</string>
-  <string name="pref_summary_mms_smart_dialer">Appelle automatiquement le contact en déplaçant votre appareil à votre oreille</string>
 </resources>
