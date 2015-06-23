@@ -238,5 +238,4 @@
   <string name="pref_summary_reset_convopt_to_default">Restartigas la dialogajn agordojn al tiuj de la aplikaĵo</string>
   <string name="pref_title_mms_use_sent_timestamp">Originala tempoindiko</string>
   <string name="adding_selected_recipients_dialog_text">Aldono de kontaktuloj\u2026</string>
-  <string name="pref_summary_mms_smart_dialer">Aŭtomate alvoki kontaktulon proksimiĝante la telefonilon al via orelo</string>
 </resources>
