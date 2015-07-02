@@ -258,6 +258,4 @@
   <string name="pref_title_mms_auto_enable_data">データ通信を自動で有効化</string>
   <string name="pref_summary_mms_auto_enable_data">MMSメッセージを送受信するためにデータ通信を自動的に有効にする</string>
   <string name="adding_selected_recipients_dialog_text">連絡先を追加しています\u2026</string>
-  <string name="pref_title_mms_smart_dialer">スマートコール</string>
-  <string name="pref_summary_mms_smart_dialer">携帯電話を耳に近づけると連絡先に自動的に発信する</string>
 </resources>
