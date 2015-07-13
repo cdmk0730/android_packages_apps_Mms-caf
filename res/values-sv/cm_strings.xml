@@ -258,6 +258,4 @@
   <string name="pref_title_mms_auto_enable_data">Auto-aktivera data</string>
   <string name="pref_summary_mms_auto_enable_data">Aktivera automatiskt mobildata för MMS-meddelanden</string>
   <string name="adding_selected_recipients_dialog_text">Lägger till kontakter\u2026</string>
-  <string name="pref_title_mms_smart_dialer">Smarta samtal</string>
-  <string name="pref_summary_mms_smart_dialer">Ring automatiskt kontakten genom att flytta enheten till ditt öra</string>
 </resources>
