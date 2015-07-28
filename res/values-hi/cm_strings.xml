@@ -258,6 +258,4 @@
   <string name="pref_title_mms_auto_enable_data">डेटा को स्वतः सक्षम करें</string>
   <string name="pref_summary_mms_auto_enable_data">एमएमएस संदेशों के लिए अपने आप ही मोबाइल डेटा को सक्षम करें</string>
   <string name="adding_selected_recipients_dialog_text">संपर्क जोड़ रहे हैं\u2026</string>
-  <string name="pref_title_mms_smart_dialer">स्मार्ट कॉल</string>
-  <string name="pref_summary_mms_smart_dialer">अपने फ़ोन को अपने कान की तरफ़ ले जाकर अपने आप ही संपर्क को कॉल करें</string>
 </resources>

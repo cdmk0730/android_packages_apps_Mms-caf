@@ -258,6 +258,4 @@
   <string name="pref_title_mms_auto_enable_data">فعال‌کردن خودکار داده‌ها</string>
   <string name="pref_summary_mms_auto_enable_data">فعال‌کردن خودکار داده تلفن همراه برای پیام‌های ام ام اس</string>
   <string name="adding_selected_recipients_dialog_text">در حال افزودن مخاطبین\u2026</string>
-  <string name="pref_title_mms_smart_dialer">تماس هوشمند</string>
-  <string name="pref_summary_mms_smart_dialer">تماس خودکار با مخاطب به وسیله نزدیک‌کردن تلفن به گوش</string>
 </resources>

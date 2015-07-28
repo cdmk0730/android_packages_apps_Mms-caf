@@ -258,6 +258,4 @@
   <string name="pref_title_mms_auto_enable_data">Samodejno omogoči podatke</string>
   <string name="pref_summary_mms_auto_enable_data">Samodejno omogoči mobilne podatke za sporočila MMS</string>
   <string name="adding_selected_recipients_dialog_text">Dodajanje stikov \u2026</string>
-  <string name="pref_title_mms_smart_dialer">Pametni klic</string>
-  <string name="pref_summary_mms_smart_dialer">Samodejno pokliči stik s premikanjem naprave k ušesu</string>
 </resources>

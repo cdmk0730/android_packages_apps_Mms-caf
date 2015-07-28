@@ -258,6 +258,4 @@
   <string name="pref_title_mms_auto_enable_data">ಡೇಟಾ ಸ್ವಯಂ-ಸಕ್ರಿಯಗೊಳಿಸು</string>
   <string name="pref_summary_mms_auto_enable_data">ಎಂಎಂಎಸ್ ಸಂದೇಶಗಳಿಗೆ ಮೊಬೈಲ್ ಡೇಟಾವನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಸಕ್ರಿಯಗೊಳಿಸು</string>
   <string name="adding_selected_recipients_dialog_text">ಸಂಪರ್ಕಗಳನ್ನು ಸೇರಿಸುತ್ತಿದೆ\u2026</string>
-  <string name="pref_title_mms_smart_dialer">ಸ್ಮಾರ್ಟ್ ಕರೆ</string>
-  <string name="pref_summary_mms_smart_dialer">ಫೋನನ್ನು ನಿಮ್ಮ ಕಿವಿಗೆ ಇಡುವುದರ ಮೂಲಕ ಸಂಪರ್ಕವನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಕರೆ ಮಾಡಿ</string>
 </resources>
