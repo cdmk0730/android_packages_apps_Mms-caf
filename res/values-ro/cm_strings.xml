@@ -186,5 +186,4 @@
   <string name="pref_title_mms_use_sent_timestamp">Marcaje de timp originale</string>
   <string name="pref_title_mms_auto_enable_data">Auto-activează date</string>
   <string name="pref_summary_mms_auto_enable_data">Activează automat datele mobile pentru mesaje MMS</string>
-  <string name="pref_title_mms_smart_dialer">Apel inteligent</string>
 </resources>
