@@ -245,5 +245,4 @@
   <string name="pref_summary_mms_use_sent_timestamp">在時間戳記中顯示傳送日期而非接收日期</string>
   <string name="pref_summary_mms_auto_enable_data">自動啟用流動數據接收多媒體短訊</string>
   <string name="adding_selected_recipients_dialog_text">新增連絡人\u2026</string>
-  <string name="pref_title_mms_smart_dialer">智能撥號</string>
 </resources>
