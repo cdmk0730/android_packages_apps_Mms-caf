@@ -23,7 +23,6 @@ import android.graphics.Typeface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.mokee.location.PhoneLocation;
 import android.mokee.utils.MoKeeUtils;
 import android.os.Handler;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
@@ -48,6 +47,7 @@ import com.android.mms.data.Contact;
 import com.android.mms.data.ContactList;
 import com.android.mms.data.Conversation;
 import com.android.mms.util.SmileyParser;
+import com.mokee.cloud.location.OfflineNumber;
 
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -277,7 +277,7 @@ public class ConversationListItem extends RelativeLayout implements Contact.Upda
 
         // Location
         if (MoKeeUtils.isSupportLanguage(true)) {
-            mLocationView.setText(PhoneLocation.getPhoneLocation(contacts.get(0).getNumber()));
+            mLocationView.setText(OfflineNumber.detect(contacts.get(0).getNumber(), context));
         }
 
         if (Log.isLoggable(LogTag.CONTACT, Log.DEBUG)) {
