@@ -31,6 +31,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.ClipboardManager;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -39,6 +40,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SqliteWrapper;
+import android.mokee.utils.MoKeeUtils;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -71,6 +73,7 @@ import com.android.mms.MmsConfig;
 import com.android.mms.R;
 import com.android.mms.data.Contact;
 import com.android.mms.data.Conversation;
+import com.android.mms.quickmessage.QmMarkRead;
 import com.android.mms.ui.ClassZeroActivity;
 import com.android.mms.ui.MessageUtils;
 import com.android.mms.ui.MessagingPreferenceActivity;
@@ -78,6 +81,11 @@ import com.android.mms.util.Recycler;
 import com.android.mms.util.SendingProgressTokenManager;
 import com.android.mms.widget.MmsWidgetProvider;
 import com.google.android.mms.MmsException;
+import com.mokee.cloud.location.CloudNumber;
+import com.mokee.cloud.location.CloudNumber$Callback;
+import com.mokee.cloud.location.CloudNumber$EngineType;
+import com.mokee.cloud.location.CloudNumber$PhoneType;
+import com.mokee.mms.utils.CaptchasUtils;
 
 /**
  * This service essentially plays the role of a "worker thread", allowing us to store
@@ -546,6 +554,15 @@ public class SmsReceiverService extends Service {
         }
     }
 
+    public static String getCaptchas(String messageBody) {
+        if (!CaptchasUtils.isChineseContains(messageBody) && CaptchasUtils.isCaptchasEnMessage(messageBody)) {
+            return CaptchasUtils.tryToGetEnCaptchas(messageBody);
+        } else if (CaptchasUtils.isCaptchasMessage(messageBody)) {
+            return CaptchasUtils.tryToGetCnCaptchas(messageBody);
+        }
+        return "";
+    }
+
     private void saveMessageToPhone(SmsMessage[] msgs, int error, String format){
         Uri messageUri = insertMessage(this, msgs, error, format);
 
@@ -559,13 +576,39 @@ public class SmsReceiverService extends Service {
 
         MessageUtils.checkIsPhoneMessageFull(this);
 
-        if (messageUri != null) {
-            long threadId = MessagingNotification.getSmsThreadId(this, messageUri);
-            // Called off of the UI thread so ok to block.
-            Log.d(TAG, "handleSmsReceived messageUri: " + messageUri + " threadId: " + threadId);
-            MessagingNotification.blockingUpdateNewMessageIndicator(this, threadId, false);
+        // Lookup addresser info
+        if (MoKeeUtils.isOnline(this) && MoKeeUtils.isSupportLanguage(true)) {
+            CloudNumber.detect(msgs[0].getOriginatingAddress(), new CloudNumber$Callback() {
+                @Override
+                public void onResult(String phoneNumber, String result, CloudNumber$PhoneType phoneType, CloudNumber$EngineType engineType) {
+                }
+            }, this, true);
         }
 
+        if (messageUri != null) {
+            long threadId = MessagingNotification.getSmsThreadId(this, messageUri);
+
+            // Get Sms captcha
+            final String captchas = getCaptchas(msgs[0].getMessageBody());
+
+            if (TextUtils.isEmpty(captchas)) {
+                // Called off of the UI thread so ok to block.
+                Log.d(TAG, "handleSmsReceived messageUri: " + messageUri + " threadId: " + threadId);
+                MessagingNotification.blockingUpdateNewMessageIndicator(this, threadId, false);
+            } else {
+                ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                clipboardManager.setText(captchas);
+                mToastHandler.post(new Runnable() {
+                    public void run() {
+                        Toast.makeText(SmsReceiverService.this, String.format(getString(R.string.captchas_has_copied), captchas), Toast.LENGTH_LONG).show();
+                    }
+                });
+                Intent mrIntent = new Intent();
+                mrIntent.setClass(this, QmMarkRead.class);
+                mrIntent.putExtra(QmMarkRead.SMS_THREAD_ID, threadId);
+                sendBroadcast(mrIntent);
+            }
+        }
     }
 
     private void handleBootCompleted() {
