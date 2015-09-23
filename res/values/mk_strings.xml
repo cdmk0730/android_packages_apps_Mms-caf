@@ -17,6 +17,8 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <!-- Captchas -->
-    <string name="captchas_has_copied">Verification code is %s, already copied to the clipboard, long press your input box to paste.</string>
+    <string name="captchas_title">Received a captcha message.</string>
+    <string name="captchas_text">Captcha is %s, click to copy.</string>
+    <string name="captchas_has_copied">Captcha already copied to the clipboard, long press your input box to paste.</string>
 
 </resources>

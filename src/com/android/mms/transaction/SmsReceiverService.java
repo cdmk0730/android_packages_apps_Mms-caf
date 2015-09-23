@@ -85,6 +85,7 @@ import com.mokee.cloud.location.CloudNumber;
 import com.mokee.cloud.location.CloudNumber$Callback;
 import com.mokee.cloud.location.CloudNumber$EngineType;
 import com.mokee.cloud.location.CloudNumber$PhoneType;
+import com.mokee.cloud.location.LocationUtils;
 import com.mokee.mms.utils.CaptchasUtils;
 
 /**
@@ -576,15 +577,6 @@ public class SmsReceiverService extends Service {
 
         MessageUtils.checkIsPhoneMessageFull(this);
 
-        // Lookup addresser info
-        if (MoKeeUtils.isOnline(this) && MoKeeUtils.isSupportLanguage(true)) {
-            CloudNumber.detect(msgs[0].getOriginatingAddress(), new CloudNumber$Callback() {
-                @Override
-                public void onResult(String phoneNumber, String result, CloudNumber$PhoneType phoneType, CloudNumber$EngineType engineType) {
-                }
-            }, this, true);
-        }
-
         if (messageUri != null) {
             long threadId = MessagingNotification.getSmsThreadId(this, messageUri);
 
@@ -596,17 +588,18 @@ public class SmsReceiverService extends Service {
                 Log.d(TAG, "handleSmsReceived messageUri: " + messageUri + " threadId: " + threadId);
                 MessagingNotification.blockingUpdateNewMessageIndicator(this, threadId, false);
             } else {
-                ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                clipboardManager.setText(captchas);
-                mToastHandler.post(new Runnable() {
-                    public void run() {
-                        Toast.makeText(SmsReceiverService.this, String.format(getString(R.string.captchas_has_copied), captchas), Toast.LENGTH_LONG).show();
+                MessagingNotification.updateCaptchasNotication(this, threadId, captchas, msgs[0].getTimestampMillis());
+            }
+        }
+
+        // Lookup addresser info
+        if (MoKeeUtils.isOnline(this) && MoKeeUtils.isSupportLanguage(true)) {
+            if (LocationUtils.shouldUpdateLocationInfo(this, msgs[0].getOriginatingAddress())) {
+                CloudNumber.detect(msgs[0].getOriginatingAddress(), new CloudNumber$Callback() {
+                    @Override
+                    public void onResult(String phoneNumber, String result, CloudNumber$PhoneType phoneType, CloudNumber$EngineType engineType) {
                     }
-                });
-                Intent mrIntent = new Intent();
-                mrIntent.setClass(this, QmMarkRead.class);
-                mrIntent.putExtra(QmMarkRead.SMS_THREAD_ID, threadId);
-                sendBroadcast(mrIntent);
+                }, this, true);
             }
         }
     }

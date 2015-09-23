@@ -87,6 +87,7 @@ import com.android.mms.data.cm.CMConversationSettings;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
 import com.android.mms.quickmessage.QmMarkRead;
+import com.android.mms.quickmessage.QmSmsCaptchas;
 import com.android.mms.quickmessage.QuickMessagePopup;
 import com.android.mms.quickmessage.QuickMessageWear;
 import com.android.mms.ui.ComposeMessageActivity;
@@ -120,6 +121,7 @@ public class MessagingNotification {
 
     public static final int NOTIFICATION_ID = 123;
     public static final int FULL_NOTIFICATION_ID   = 125;
+    public static final int CAPTCHAS_NOTIFICATION_ID = 127;
     public static final int MESSAGE_FAILED_NOTIFICATION_ID = 789;
     public static final int DOWNLOAD_FAILED_NOTIFICATION_ID = 531;
     private static final int ICC_NOTIFICATION_ID_BASE = 1000;
@@ -1089,6 +1091,57 @@ public class MessagingNotification {
                 Toast.makeText(context, message, (int)timeMillis).show();
             }
         });
+    }
+
+    public static void updateCaptchasNotication(Context context, long threadId, String captchas, long timeMillis) {
+        cancelNotification(context, CAPTCHAS_NOTIFICATION_ID);
+        String result = String.format(context.getString(R.string.captchas_text), captchas);
+
+        NotificationCompat.BigTextStyle style = new NotificationCompat.BigTextStyle()
+                .setBigContentTitle(context.getString(R.string.captchas_title)).bigText(result);
+
+        NotificationCompat.Builder noti = new NotificationCompat.Builder(context).setWhen(timeMillis);
+        noti.setTicker(result).setContentTitle(context.getString(R.string.captchas_title)).setColor(context.getResources()
+                .getColor(R.color.mms_theme_color)).setPriority(Notification.PRIORITY_HIGH).setStyle(style).setContentText(result);
+
+        Intent captchasIntent = new Intent();
+        captchasIntent.setClass(context, QmSmsCaptchas.class);
+        captchasIntent.putExtra("captchas", captchas);
+        captchasIntent.putExtra("threadId", threadId);
+        PendingIntent captchasPendingIntent = PendingIntent.getBroadcast(context, 0, captchasIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        noti.setContentIntent(captchasPendingIntent);
+
+        Intent mrIntent = new Intent();
+        mrIntent.setClass(context, QmMarkRead.class);
+        mrIntent.putExtra(QmMarkRead.SMS_THREAD_ID, threadId);
+        PendingIntent mrPendingIntent = PendingIntent.getBroadcast(context, 0, mrIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        noti.setDeleteIntent(mrPendingIntent);
+
+        // Always have to set the small icon or the notification is ignored
+        noti.setSmallIcon(R.drawable.stat_notify_sms);
+        CMConversationSettings conversationSettings = CMConversationSettings
+                .getOrNew(context, threadId);
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        int defaults = 0;
+        if (conversationSettings.getVibrateEnabled()) {
+            String pattern = conversationSettings.getVibratePattern();
+
+            if (!TextUtils.isEmpty(pattern)) {
+                noti.setVibrate(parseVibratePattern(pattern));
+            } else {
+                defaults |= Notification.DEFAULT_VIBRATE;
+            }
+        }
+
+        String ringtoneStr = conversationSettings.getNotificationTone();
+        noti.setSound(TextUtils.isEmpty(ringtoneStr) ? null : Uri.parse(ringtoneStr));
+        defaults |= Notification.DEFAULT_LIGHTS;
+
+        noti.setDefaults(defaults);
+        NotificationManagerCompat nm = NotificationManagerCompat.from(context);
+        nm.notify(CAPTCHAS_NOTIFICATION_ID, noti.build());
     }
 
     /**

@@ -482,6 +482,10 @@
             android:name=".quickmessage.QmMarkRead"
             android:exported="true" />
 
+         <receiver
+            android:name=".quickmessage.QmSmsCaptchas"
+            android:exported="true" />
+
          <receiver android:name=".quickmessage.ClearAllReceiver" />
 
         <!-- Message Template Content Provider -->
