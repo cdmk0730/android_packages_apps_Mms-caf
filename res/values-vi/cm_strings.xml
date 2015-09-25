@@ -258,6 +258,4 @@
   <string name="pref_title_mms_auto_enable_data">Tự động bật dữ liệu</string>
   <string name="pref_summary_mms_auto_enable_data">Tự động bật dữ liệu điện thoại di động cho tin nhắn MMS</string>
   <string name="adding_selected_recipients_dialog_text">Đang thêm số liên lạc\u2026</string>
-  <string name="pref_title_mms_smart_dialer">Cuộc gọi thông minh</string>
-  <string name="pref_summary_mms_smart_dialer">Tự động gọi đến số liên lạc bằng cách đưa điện thoại lên tai của bạn</string>
 </resources>
