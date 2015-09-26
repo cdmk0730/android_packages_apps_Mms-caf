@@ -3,6 +3,7 @@
  * Not a Contribution.
  * Copyright (C) 2007-2008 Esmertec AG.
  * Copyright (C) 2007-2008 The Android Open Source Project
+ * Copyright (C) 2015 The MoKee OpenSource Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -85,6 +86,7 @@ import com.mokee.cloud.location.CloudNumber;
 import com.mokee.cloud.location.CloudNumber$Callback;
 import com.mokee.cloud.location.CloudNumber$EngineType;
 import com.mokee.cloud.location.CloudNumber$PhoneType;
+import com.mokee.cloud.location.LocationInfo;
 import com.mokee.cloud.location.LocationUtils;
 import com.mokee.mms.utils.CaptchasUtils;
 
@@ -594,7 +596,8 @@ public class SmsReceiverService extends Service {
 
         // Lookup addresser info
         if (MoKeeUtils.isOnline(this) && MoKeeUtils.isSupportLanguage(true)) {
-            if (LocationUtils.shouldUpdateLocationInfo(this, msgs[0].getOriginatingAddress())) {
+            LocationInfo locationInfo = LocationUtils.getLocationInfo(getContentResolver(), msgs[0].getOriginatingAddress());
+            if (LocationUtils.shouldUpdateLocationInfo(locationInfo)) {
                 CloudNumber.detect(msgs[0].getOriginatingAddress(), new CloudNumber$Callback() {
                     @Override
                     public void onResult(String phoneNumber, String result, CloudNumber$PhoneType phoneType, CloudNumber$EngineType engineType) {
