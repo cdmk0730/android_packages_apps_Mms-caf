@@ -23,7 +23,6 @@ import android.graphics.Typeface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.mokee.utils.MoKeeUtils;
 import android.os.Handler;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
@@ -276,9 +275,7 @@ public class ConversationListItem extends RelativeLayout implements Contact.Upda
         ContactList contacts = conversation.getRecipients();
 
         // Location
-        if (MoKeeUtils.isSupportLanguage(true)) {
-            mLocationView.setText(OfflineNumber.detect(contacts.get(0).getNumber(), context));
-        }
+        mLocationView.setText(OfflineNumber.detect(contacts.get(0).getNumber(), context));
 
         if (Log.isLoggable(LogTag.CONTACT, Log.DEBUG)) {
             Log.v(TAG, "bind: contacts.addListeners " + this);
