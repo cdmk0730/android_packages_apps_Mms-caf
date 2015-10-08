@@ -16,6 +16,7 @@
 
 package com.android.mms.quickmessage;
 
+import com.android.mms.transaction.MessagingNotification;
 import com.android.mms.transaction.SmsReceiverService;
 import com.android.mms.R;
 
@@ -50,6 +51,8 @@ public class QmSmsCaptchas extends BroadcastReceiver {
             mrIntent.setClass(context, QmMarkRead.class);
             mrIntent.putExtra(QmMarkRead.SMS_THREAD_ID, threadId);
             context.sendBroadcast(mrIntent);
+
+            MessagingNotification.cancelNotification(context, MessagingNotification.CAPTCHAS_NOTIFICATION_ID);
         }
     }
 }
