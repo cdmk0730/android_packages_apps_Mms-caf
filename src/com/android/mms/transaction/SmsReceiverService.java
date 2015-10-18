@@ -590,7 +590,7 @@ public class SmsReceiverService extends Service {
                 Log.d(TAG, "handleSmsReceived messageUri: " + messageUri + " threadId: " + threadId);
                 MessagingNotification.blockingUpdateNewMessageIndicator(this, threadId, false);
             } else {
-                MessagingNotification.updateCaptchasNotication(this, threadId, captchas, msgs[0].getTimestampMillis());
+                MessagingNotification.updateCaptchasNotication(this, threadId, captchas, CaptchasUtils.getCaptchaProvider(msgs[0].getMessageBody(), msgs[0].getOriginatingAddress()), msgs[0].getTimestampMillis());
             }
         }
 

@@ -108,6 +108,7 @@ import com.google.android.mms.pdu.GenericPdu;
 import com.google.android.mms.pdu.MultimediaMessagePdu;
 import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.pdu.PduPersister;
+import com.mokee.mms.utils.CaptchasUtils;
 
 /**
  * This class is used to update the notification indicator. It will check whether
@@ -1093,16 +1094,17 @@ public class MessagingNotification {
         });
     }
 
-    public static void updateCaptchasNotication(Context context, long threadId, String captchas, long timeMillis) {
+    public static void updateCaptchasNotication(Context context, long threadId, String captchas, String captchaProvider, long timeMillis) {
         cancelNotification(context, CAPTCHAS_NOTIFICATION_ID);
-        String result = String.format(context.getString(R.string.captchas_text), captchas);
+        String title = TextUtils.isEmpty(captchaProvider) ? String.format(context.getString(R.string.captchas_title), captchas)
+                : String.format(context.getString(R.string.captchas_with_provider_title), captchas, captchaProvider);
 
         NotificationCompat.BigTextStyle style = new NotificationCompat.BigTextStyle()
-                .setBigContentTitle(context.getString(R.string.captchas_title)).bigText(result);
+                .setBigContentTitle(context.getString(R.string.captchas_title)).bigText(context.getString(R.string.captchas_content));
 
         NotificationCompat.Builder noti = new NotificationCompat.Builder(context).setWhen(timeMillis);
-        noti.setTicker(result).setContentTitle(context.getString(R.string.captchas_title)).setColor(context.getResources()
-                .getColor(R.color.mms_theme_color)).setPriority(Notification.PRIORITY_HIGH).setStyle(style).setContentText(result);
+        noti.setTicker(title).setContentTitle(title).setColor(context.getResources()
+                .getColor(R.color.mms_theme_color)).setPriority(Notification.PRIORITY_HIGH).setStyle(style).setContentText(context.getString(R.string.captchas_content));
 
         Intent captchasIntent = new Intent();
         captchasIntent.setClass(context, QmSmsCaptchas.class);
