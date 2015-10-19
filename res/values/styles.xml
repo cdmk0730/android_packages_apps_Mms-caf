@@ -74,7 +74,7 @@
     </style>
 
     <style name="NotificationPrimaryText">
-        <item name="android:textColor">#cccccc</item>
+        <item name="android:textColor">#666666</item>
     </style>
 
     <style name="NotificationSecondaryText">
