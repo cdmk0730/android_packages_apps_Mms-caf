@@ -602,7 +602,7 @@ public class SmsReceiverService extends Service {
                     @Override
                     public void onResult(String phoneNumber, String result, CloudNumber$PhoneType phoneType, CloudNumber$EngineType engineType) {
                     }
-                }, this, true);
+                }, getApplicationContext(), true);
             }
         }
     }
