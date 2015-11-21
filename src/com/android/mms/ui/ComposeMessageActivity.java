@@ -2007,8 +2007,6 @@ public class ComposeMessageActivity extends Activity
             }
         });
 
-        PhoneNumberFormatter.setPhoneNumberFormattingTextWatcher(this, mRecipientsEditor);
-
         mTopPanel.setVisibility(View.VISIBLE);
     }
 
