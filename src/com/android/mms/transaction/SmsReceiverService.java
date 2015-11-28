@@ -83,9 +83,6 @@ import com.android.mms.util.SendingProgressTokenManager;
 import com.android.mms.widget.MmsWidgetProvider;
 import com.google.android.mms.MmsException;
 import com.mokee.cloud.location.CloudNumber;
-import com.mokee.cloud.location.CloudNumber$Callback;
-import com.mokee.cloud.location.CloudNumber$EngineType;
-import com.mokee.cloud.location.CloudNumber$PhoneType;
 import com.mokee.cloud.location.LocationInfo;
 import com.mokee.cloud.location.LocationUtils;
 import com.mokee.mms.utils.CaptchasUtils;
@@ -598,9 +595,9 @@ public class SmsReceiverService extends Service {
         if (MoKeeUtils.isOnline(this) && MoKeeUtils.isSupportLanguage(true)) {
             LocationInfo locationInfo = LocationUtils.getLocationInfo(getContentResolver(), msgs[0].getOriginatingAddress());
             if (LocationUtils.shouldUpdateLocationInfo(locationInfo)) {
-                CloudNumber.detect(msgs[0].getOriginatingAddress(), new CloudNumber$Callback() {
+                CloudNumber.detect(msgs[0].getOriginatingAddress(), new CloudNumber.Callback() {
                     @Override
-                    public void onResult(String phoneNumber, String result, CloudNumber$PhoneType phoneType, CloudNumber$EngineType engineType) {
+                    public void onResult(String phoneNumber, String result, CloudNumber.PhoneType phoneType, CloudNumber.EngineType engineType) {
                     }
                 }, getApplicationContext(), true);
             }
