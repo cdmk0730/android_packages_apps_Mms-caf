@@ -158,6 +158,4 @@
   <string name="pref_title_mms_auto_enable_data">Habilitar datos automaticamente</string>
   <string name="pref_summary_mms_auto_enable_data">Habilitar datos móbiles automaticamente para as mensaxes MMS</string>
   <string name="adding_selected_recipients_dialog_text">Engadindo os contactos\n2026</string>
-  <string name="pref_title_mms_smart_dialer">Chamada intelixente</string>
-  <string name="pref_summary_mms_smart_dialer">Chamar automaticamente ao contacto achegando o dispositivo á orella</string>
 </resources>
