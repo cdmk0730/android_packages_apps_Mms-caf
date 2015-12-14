@@ -1102,7 +1102,7 @@ public class MessagingNotification {
                 : String.format(context.getString(R.string.captchas_with_provider_title), captchas, captchaProvider);
 
         NotificationCompat.BigTextStyle style = new NotificationCompat.BigTextStyle()
-                .setBigContentTitle(context.getString(R.string.captchas_title)).bigText(context.getString(R.string.captchas_content));
+                .setBigContentTitle(title).bigText(context.getString(R.string.captchas_content));
 
         NotificationCompat.Builder noti = new NotificationCompat.Builder(context).setWhen(timeMillis);
         noti.setTicker(title).setContentTitle(title).setColor(context.getResources()
