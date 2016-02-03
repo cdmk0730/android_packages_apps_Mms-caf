@@ -258,6 +258,4 @@
   <string name="pref_title_mms_auto_enable_data">Автоматични данни</string>
   <string name="pref_summary_mms_auto_enable_data">Автоматично разреши мобилни данни за MMS съобщения</string>
   <string name="adding_selected_recipients_dialog_text">Добавяне на контакти\u2026</string>
-  <string name="pref_title_mms_smart_dialer">Smart обаждане</string>
-  <string name="pref_summary_mms_smart_dialer">Автоматично набирани на контакт чрез преместване на телефона до ухото</string>
 </resources>
