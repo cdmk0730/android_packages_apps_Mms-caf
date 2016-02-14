@@ -234,5 +234,4 @@
   <string name="pref_summary_mms_full_timestamp">Prikaži i datum i vrijeme u vremenskim oznakama</string>
   <string name="pref_title_mms_use_sent_timestamp">Orginalna vremenska oznaka</string>
   <string name="pref_summary_mms_use_sent_timestamp">Prikažo poslano vrijeme poruke umjesto primljenog vremena u vremenskim oznakama</string>
-  <string name="pref_title_mms_smart_dialer">Pametan poziv</string>
 </resources>
