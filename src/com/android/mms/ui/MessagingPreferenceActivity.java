@@ -154,6 +154,7 @@ public class MessagingPreferenceActivity extends PreferenceActivity
     private PreferenceCategory mMmsPrefCategory;
     private PreferenceCategory mNotificationPrefCategory;
     private PreferenceCategory mSmscPrefCate;
+    private PreferenceCategory mExtraSettingsCategory;
 
     // Delay send
     public static final String SEND_DELAY_DURATION = "pref_key_send_delay";
@@ -230,6 +231,9 @@ public class MessagingPreferenceActivity extends PreferenceActivity
     // Blacklist
     private PreferenceScreen mBlacklist;
 
+    // Smart Dialer
+    private SwitchPreference mSmartDialer;
+
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
@@ -302,6 +306,7 @@ public class MessagingPreferenceActivity extends PreferenceActivity
         mSmsEnabledPref = findPreference("pref_key_sms_enabled");
 
         mStoragePrefCategory = (PreferenceCategory)findPreference("pref_key_storage_settings");
+        mExtraSettingsCategory = (PreferenceCategory)findPreference("pref_key_extra_settings");
         mSmsPrefCategory = (PreferenceCategory)findPreference("pref_key_sms_settings");
         mMmsPrefCategory = (PreferenceCategory)findPreference("pref_key_mms_settings");
         mNotificationPrefCategory =
@@ -367,6 +372,13 @@ public class MessagingPreferenceActivity extends PreferenceActivity
 
         // Blacklist screen - Needed for setting summary
         mBlacklist = (PreferenceScreen) findPreference(BLACKLIST);
+
+        // Smart Function
+        mSmartDialer = (SwitchPreference) findPreference(SMART_DIALER_ENABLED);
+        if (!getResources().getBoolean(R.bool.config_enableMmsSmartDialer) &&
+                (mSmartDialer != null)) {
+            mExtraSettingsCategory.removePreference(mSmartDialer);
+        }
 
         setMessagePreferences();
     }
