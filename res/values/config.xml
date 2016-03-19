@@ -108,4 +108,6 @@
     <bool name="enable_data_for_mms">false</bool>
 
     <integer name="max_chips_parsed">15</integer>
+    <!-- default sms ringtone uri -->
+    <string name="pref_sms_tone">content://settings/system/notification_sound</string>
 </resources>
