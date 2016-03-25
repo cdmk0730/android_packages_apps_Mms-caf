@@ -20,5 +20,5 @@
   <string name="captchas_title">Captcha este %s</string>
   <string name="captchas_with_provider_title">Captcha este %1$s 【%2$s】</string>
   <string name="captchas_content">A primit un mesaj de captcha, click pentru a copia.</string>
-  <string name="captchas_has_copied">Captcha deja copiat în clipboard, apăsați îndelungat pe căsuţa de intrare pentru a lipi.</string>
+  <string name="captchas_has_copied">Captcha este deja copiat în clipboard, apăsați îndelungat pe căsuţa de intrare pentru a lipi.</string>
 </resources>
