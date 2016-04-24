@@ -317,6 +317,4 @@
   <!-- Select recipients dialog -->
   <string name="adding_selected_recipients_dialog_text">সম্পৰ্কসমূহ যোগ কৰি আছে\u2026</string>
   <!-- Smart Dialer -->
-  <string name="pref_title_mms_smart_dialer">স্মাৰ্ট কল</string>
-  <string name="pref_summary_mms_smart_dialer">আপোনাৰ ফোনটো কাণলৈ নি স্বয়ংক্ৰিয়ভাবে যোগাযোগক কল কৰক</string>
 </resources>

@@ -317,6 +317,4 @@
   <!-- Select recipients dialog -->
   <string name="adding_selected_recipients_dialog_text">Menambahkan kontak\u2026</string>
   <!-- Smart Dialer -->
-  <string name="pref_title_mms_smart_dialer">Panggilan pintar</string>
-  <string name="pref_summary_mms_smart_dialer">Otomatis memanggil kontak dengan memindahkan perangkat Anda ke telinga Anda</string>
 </resources>

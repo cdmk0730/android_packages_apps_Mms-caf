@@ -317,6 +317,4 @@
   <!-- Select recipients dialog -->
   <string name="adding_selected_recipients_dialog_text">தொடர்புகள் சேர்க்கப்ப்டுகின்றன\u2026</string>
   <!-- Smart Dialer -->
-  <string name="pref_title_mms_smart_dialer">ஸ்மார்ட் அழைப்பு</string>
-  <string name="pref_summary_mms_smart_dialer">தொலைப்பேசியை உங்கள் காது அருகே நகர்த்துவதன் மூலம் தானியக்கமாக தொடர்பை அழைக்கவும்.</string>
 </resources>

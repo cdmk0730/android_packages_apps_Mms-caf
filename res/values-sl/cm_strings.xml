@@ -317,6 +317,4 @@
   <!-- Select recipients dialog -->
   <string name="adding_selected_recipients_dialog_text">Dodajanje stikov \u2026</string>
   <!-- Smart Dialer -->
-  <string name="pref_title_mms_smart_dialer">Pametni klic</string>
-  <string name="pref_summary_mms_smart_dialer">Samodejno pokliči stik s pomikom telefona k ušesu</string>
 </resources>

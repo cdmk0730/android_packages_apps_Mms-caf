@@ -317,6 +317,4 @@
   <!-- Select recipients dialog -->
   <string name="adding_selected_recipients_dialog_text">กำลังเพิ่มรายชื่อ\u2026</string>
   <!-- Smart Dialer -->
-  <string name="pref_title_mms_smart_dialer">การโทรแบบสมาร์ท</string>
-  <string name="pref_summary_mms_smart_dialer">โทรหารายชื่อที่กำหนดอัตโนมัติเมื่อคุณยกโทรศัพท์ขึ้นมาแนบหู</string>
 </resources>

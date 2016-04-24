@@ -317,6 +317,4 @@
   <!-- Select recipients dialog -->
   <string name="adding_selected_recipients_dialog_text">കോണ്‍ടാക്റ്റുകള്‍ ചേർക്കുന്നു\u2026</string>
   <!-- Smart Dialer -->
-  <string name="pref_title_mms_smart_dialer">സ്മാർട്ട് കോൾ</string>
-  <string name="pref_summary_mms_smart_dialer">ഫോണ്‍ നിങ്ങളുടെ ചെവിയുടെ അടുത്തേക്ക് കൊണ്ടുവന്ന്‍ കോണ്‍ടാക്റ്റിലേക്ക് സ്വപ്രേരിതമായി കോള്‍ ചെയ്യുക</string>
 </resources>

@@ -317,6 +317,4 @@
   <!-- Select recipients dialog -->
   <string name="adding_selected_recipients_dialog_text">Kontakte werden hinzugefügt\u2026</string>
   <!-- Smart Dialer -->
-  <string name="pref_title_mms_smart_dialer">Schnellanruf</string>
-  <string name="pref_summary_mms_smart_dialer">Kontakt automatisch anrufen, indem Sie das Gerät an Ihr Ohr führen</string>
 </resources>

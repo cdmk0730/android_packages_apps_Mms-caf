@@ -304,5 +304,4 @@
   <!-- Select recipients dialog -->
   <string name="adding_selected_recipients_dialog_text">新增連絡人\u2026</string>
   <!-- Smart Dialer -->
-  <string name="pref_title_mms_smart_dialer">智能撥號</string>
 </resources>

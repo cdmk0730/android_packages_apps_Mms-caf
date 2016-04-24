@@ -317,6 +317,4 @@
   <!-- Select recipients dialog -->
   <string name="adding_selected_recipients_dialog_text">ସମ୍ପର୍କ ଯୋଗ କରାଯାଉଛି\u2026</string>
   <!-- Smart Dialer -->
-  <string name="pref_title_mms_smart_dialer">ସ୍ମାର୍ଟ୍‌ କଲ୍</string>
-  <string name="pref_summary_mms_smart_dialer">ଆପଣଙ୍କ ଫୋନ୍‍ ଆପଣଙ୍କ କାନ ପାଖକୁ ଗତି କରାଇ ସମ୍ପର୍କକୁ ସ୍ୱତଃ କଲ୍‍ କରନ୍ତୁ</string>
 </resources>

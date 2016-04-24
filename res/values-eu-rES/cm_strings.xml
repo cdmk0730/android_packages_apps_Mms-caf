@@ -317,6 +317,4 @@
   <!-- Select recipients dialog -->
   <string name="adding_selected_recipients_dialog_text">Kontaktuak gehitzen\2026</string>
   <!-- Smart Dialer -->
-  <string name="pref_title_mms_smart_dialer">Dei adimentsua</string>
-  <string name="pref_summary_mms_smart_dialer">Automatikoki deitu kontaktua telefonoa belarrira hurbilduz</string>
 </resources>

@@ -317,6 +317,4 @@
   <!-- Select recipients dialog -->
   <string name="adding_selected_recipients_dialog_text">Engadindo os contactos\n2026</string>
   <!-- Smart Dialer -->
-  <string name="pref_title_mms_smart_dialer">Chamada intelixente</string>
-  <string name="pref_summary_mms_smart_dialer">Chamar automaticamente ao contacto achegando o dispositivo á orella</string>
 </resources>

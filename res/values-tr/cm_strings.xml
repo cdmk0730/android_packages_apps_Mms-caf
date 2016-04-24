@@ -317,6 +317,4 @@
   <!-- Select recipients dialog -->
   <string name="adding_selected_recipients_dialog_text">Kişiler ekleniyor\u2026</string>
   <!-- Smart Dialer -->
-  <string name="pref_title_mms_smart_dialer">Akıllı arama</string>
-  <string name="pref_summary_mms_smart_dialer">Telefonunuzu kulağınıza götürünce kişiyi otomatik arar</string>
 </resources>

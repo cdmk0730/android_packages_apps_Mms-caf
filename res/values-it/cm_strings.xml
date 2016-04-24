@@ -317,6 +317,4 @@
   <!-- Select recipients dialog -->
   <string name="adding_selected_recipients_dialog_text">Aggiunta contatti\u2026</string>
   <!-- Smart Dialer -->
-  <string name="pref_title_mms_smart_dialer">Chiamata intelligente</string>
-  <string name="pref_summary_mms_smart_dialer">Chiama il contatto posizionando il dispositivo vicino all\'orecchio</string>
 </resources>
