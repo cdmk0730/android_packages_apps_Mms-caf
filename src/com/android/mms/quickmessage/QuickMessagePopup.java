@@ -341,13 +341,13 @@ public class QuickMessagePopup extends Activity implements
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-
+    protected void onDestroy() {
+        super.onDestroy();
         if (mScreenUnlocked) {
             // Cancel the receiver that will clear the wake locks
             ClearAllReceiver.removeCancel(getApplicationContext());
             ClearAllReceiver.clearAll(true);
+            mScreenUnlocked = false;
         }
     }
 
@@ -452,6 +452,9 @@ public class QuickMessagePopup extends Activity implements
         // See if the lock screen should be disabled
         if (!mWakeAndUnlock) {
             return;
+        }
+        if (mScreenUnlocked) {
+            return; // already unlocked
         }
 
         // See if the screen is locked or if no lock set and the screen is off

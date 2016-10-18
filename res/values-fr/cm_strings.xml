@@ -20,7 +20,7 @@
   <string name="button_close">Fermer</string>
   <string name="button_view">Afficher</string>
   <string name="button_templates">Modèles</string>
-  <string name="type_to_reply_text_enter_to_send">Saisissez une réponse</string>
+  <string name="type_to_reply_text_enter_to_send">Entrez une réponse</string>
   <string name="toast_sending_message">Envoi du message</string>
   <string name="qm_quick_reply">Répondre</string>
   <string name="qm_mark_read">Lu</string>
@@ -132,7 +132,7 @@
   <string name="cell_broadcast_sender">Canal de diffusion cellulaire</string>
   <string name="sent_on">"Envoyé : <xliff:g id="date">%s</xliff:g>"</string>
   <string name="received_on">"Reçu : <xliff:g id="date">%s</xliff:g>"</string>
-  <string name="menu_forward_conversation">Transfert de conversation</string>
+  <string name="menu_forward_conversation">Transférer la conversation</string>
   <string name="menu_resend">Renvoyer</string>
   <string name="cancel_downloading">Annuler</string>
   <string name="confirm_cancel_downloading">Voulez-vous annuler le téléchargement du MMS ?</string>
@@ -147,10 +147,10 @@
   <string name="title_send_message">Envoyer le message</string>
   <string name="subject_full">Le sujet est plein</string>
   <string name="status_deleted_unread">Supprimé sans avoir été lu</string>
-  <string name="sms_full_body_cm">La mémoire du téléphone est pleine, impossible d\'envoyer ou recevoir de nouveaux messages. Supprimez quelques anciens messages.</string>
+  <string name="sms_full_body_cm">La mémoire du téléphone est saturée, impossible d\'envoyer ou recevoir de nouveaux messages. Supprimez quelques anciens messages.</string>
   <string name="memory_low_title">Mémoire de message texte faible</string>
   <string name="memory_low_body">La mémoire du téléphone est faible, supprimez des données inutiles pour libérer de l\'espace afin d\'assurer la réception de nouveaux messages.</string>
-  <string name="disk_storage_full_error">La mémoire du téléphone est pleine.</string>
+  <string name="disk_storage_full_error">La mémoire du téléphone est saturée.</string>
   <string name="mobile_data_disable">Les données mobiles sont actuellement désactivées, voulez-vous tout de même <xliff:g id="action" example="download">%1$s</xliff:g> le MMS ? Cela va engendrer un transit de données mobiles.</string>
   <string name="mobile_data_send">envoyer</string>
   <string name="mobile_data_download">télécharger</string>
@@ -173,8 +173,8 @@
   <string name="menu_connect_url">Connecter</string>
   <string name="menu_add_to_label">Enregistrer dans les favoris</string>
   <string name="loadurlinfo_str">Charger l\'URL ?</string>
-  <string name="discard_message_reason_all_invalid">Votre message sera abandonné parce que tous les destinataires sont invalides.</string>
-  <string name="discard_message_reason_some_invalid">Votre message sera abandonné parce que certains destinataires sont invalides.</string>
+  <string name="discard_message_reason_all_invalid">Votre message sera abandonné car tous les destinataires sont incorrects.</string>
+  <string name="discard_message_reason_some_invalid">Votre message sera abandonné car certains destinataires sont incorrects.</string>
   <string name="pref_sms_signature_title">Signature SMS</string>
   <string name="pref_title_enable_signature">Signature SMS</string>
   <string name="pref_title_edit_signature">Modifier la signature SMS</string>
@@ -238,7 +238,7 @@
   <string name="search_as_number">Numéro</string>
   <string name="search_as_content">Contenu</string>
   <string name="search_as_subject">Objet</string>
-  <string name="invalid_name_toast">Veuillez saisir un nom valide</string>
+  <string name="invalid_name_toast">Veuillez entrer un nom correct</string>
   <string name="slot_type">Port <xliff:g id="number">%s</xliff:g></string>
   <string name="sim_capacity_title">Capacité de la SIM</string>
   <string name="sim_capacity_used">Utilisé : \u0020</string>
@@ -253,7 +253,7 @@
   <string name="pref_title_sms_store_card2">Stockage préféré carte SIM 2</string>
   <string name="pref_sms_store_phone">Téléphone</string>
   <string name="pref_sms_store_card">Carte SIM</string>
-  <string name="pref_sim_card_full_save_to_phone">La carte SIM est pleine, les nouveaux messages seront enregistrés dans la mémoire du téléphone.</string>
+  <string name="pref_sim_card_full_save_to_phone">La carte SIM est saturée, enregistrement des nouveaux messages dans la mémoire du téléphone.</string>
   <string name="mms_size_indicator"><xliff:g id="mms_size">%1$s</xliff:g>KB/<xliff:g id="all_size">%2$s</xliff:g>KB</string>
   <string name="selected_all">Tout sélectionner</string>
   <string name="deselected_all">Tout désélectionner</string>

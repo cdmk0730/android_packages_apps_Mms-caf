@@ -432,8 +432,6 @@ public class ComposeMessageActivity extends Activity
 
     private boolean mEnableEmoticons;
 
-    private int mInputMethod;
-
     private int mLastSmoothScrollPosition;
     private boolean mScrollOnSend;      // Flag that we need to scroll the list to the end.
 
@@ -2417,9 +2415,6 @@ public class ComposeMessageActivity extends Activity
         boolean showGesture = prefs.getBoolean(MessagingPreferenceActivity.SHOW_GESTURE, false);
         int unicodeStripping = prefs.getInt(MessagingPreferenceActivity.UNICODE_STRIPPING_VALUE,
                 MessagingPreferenceActivity.UNICODE_STRIPPING_LEAVE_INTACT);
-        mInputMethod = Integer.parseInt(prefs.getString(MessagingPreferenceActivity.INPUT_TYPE,
-                Integer.toString(InputType.TYPE_TEXT_VARIATION_SHORT_MESSAGE)));
-
         mLibrary = TemplateGesturesLibrary.getStore(this);
 
         int layout = R.layout.compose_message_activity;
@@ -2988,24 +2983,26 @@ public class ComposeMessageActivity extends Activity
             Log.w("ERROR", e.toString());
         }
 
-        // Load the selected input type
-        SharedPreferences prefs = PreferenceManager
-                .getDefaultSharedPreferences((Context) ComposeMessageActivity.this);
-        mInputMethod = Integer.parseInt(prefs.getString(MessagingPreferenceActivity.INPUT_TYPE,
-                Integer.toString(InputType.TYPE_TEXT_VARIATION_SHORT_MESSAGE)));
-        mTextEditor.setInputType(InputType.TYPE_CLASS_TEXT | mInputMethod
-                | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
-                | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
-                | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-
         mIsRunning = true;
 
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        int inputType = Integer.parseInt(prefs.getString(MessagingPreferenceActivity.INPUT_TYPE,
+                Integer.toString(InputType.TYPE_TEXT_VARIATION_SHORT_MESSAGE)));
+        // Clear the current input type
+        int currInputType = mTextEditor.getInputType();
+        currInputType &= ~InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE;
+        currInputType &= ~InputType.TYPE_TEXT_VARIATION_SHORT_MESSAGE;
+
+        mTextEditor.setInputType(currInputType | inputType);
+
         // refresh autotext state after adding word to dictionary
-        if (mTextEditor.isCursorVisible()) {
-            mTextEditor.setText(mTextEditor.getText());
+        CharSequence text = mWorkingMessage.getText();
+        if (text != null && mTextEditor.isCursorVisible()) {
+            mTextEditor.setTextKeepState(mTextEditor.getText());
         }
+
         if (mSubjectTextEditor != null && mSubjectTextEditor.isCursorVisible()) {
-            mSubjectTextEditor.setText(mSubjectTextEditor.getText());
+            mSubjectTextEditor.setTextKeepState(mSubjectTextEditor.getText());
         }
         updateThreadIdIfRunning();
         mConversation.markAsRead(true);
@@ -4203,14 +4200,7 @@ public class ComposeMessageActivity extends Activity
 
     private void insertNumbersIntoRecipientsEditor(final ArrayList<String> numbers) {
         ContactList list = ContactList.getByNumbers(numbers, true);
-        ContactList existing = mRecipientsEditor.constructContactsFromInput(true);
-        for (Contact contact : existing) {
-            if (!contact.existsInDatabase()) {
-                list.add(contact);
-            }
-        }
-        mRecipientsEditor.setText(null);
-        mRecipientsEditor.populate(list);
+        insertContacts(list);
     }
 
     /**
@@ -4316,21 +4306,7 @@ public class ComposeMessageActivity extends Activity
                 final Runnable populateWorker = new Runnable() {
                     @Override
                     public void run() {
-                        // We must remove this listener before dealing with the contact list.
-                        // Because the listener will take a lot of time, this will cause an ANR.
-                        mRecipientsEditor.removeTextChangedListener(mRecipientsWatcher);
-                        mRecipientsEditor.populate(list);
-                        // Set value for mRecipientsPickList and
-                        // mRecipientsWatcher will update the UI.
-                        mRecipientsPickList = list;
-                        updateTitle(list);
-                        // When we finish dealing with the conatct list, the
-                        // RecipientsEditor will post the runnable "postHandlePendingChips"
-                        // to the message queue, then we add the TextChangedListener.
-                        // The mRecipientsWatcher will be call while UI thread deal
-                        // with the "postHandlePendingChips" runnable.
-                        mRecipientsEditor.addTextChangedListener(mRecipientsWatcher);
-
+                        insertContacts(list);
                         // if process finished, then dismiss the progress dialog
                         progressDialog.dismiss();
 
@@ -4378,6 +4354,23 @@ public class ComposeMessageActivity extends Activity
             handleAddAttachmentError(result, R.string.type_picture);
         }
     };
+
+    private void insertContacts(ContactList list) {
+        // We must remove this listener before dealing with the contact list.
+        // Because the listener will take a lot of time, this will cause an ANR.
+        mRecipientsEditor.removeTextChangedListener(mRecipientsWatcher);
+        mRecipientsEditor.populate(list);
+        // Set value for mRecipientsPickList and
+        // mRecipientsWatcher will update the UI.
+        mRecipientsPickList = list;
+        updateTitle(list);
+        // When we finish dealing with the conatct list, the
+        // RecipientsEditor will post the runnable "postHandlePendingChips"
+        // to the message queue, then we add the TextChangedListener.
+        // The mRecipientsWatcher will be call while UI thread deal
+        // with the "postHandlePendingChips" runnable.
+        mRecipientsEditor.addTextChangedListener(mRecipientsWatcher);
+    }
 
     private void handleAddAttachmentError(final int error, final int mediaTypeStringId) {
         if (error == WorkingMessage.OK) {
